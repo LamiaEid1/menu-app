@@ -15,6 +15,15 @@ export interface Category {
   items: MenuItem[];
 }
 
+export interface Offer {
+  id: number;
+  title: string;
+  description: string;
+  discount?: string;
+  image?: any;
+  valid_until?: string;
+}
+
 export interface StoreInfo {
   restaurantName?: string;
   theme?: string;
@@ -25,6 +34,6 @@ export interface StoreInfo {
 export interface MenuWithSettings {
   menu: MenuItem[];
   categories: Category[];
-  offers?: any[];
+  offers?: Offer[];
   settings?: StoreInfo;
 }

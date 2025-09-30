@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { menuApi } from '../services/api';
-import { MenuItem, StoreInfo } from '../types/menu';
+import { MenuItem, StoreInfo, Offer } from '../types/menu';
 import MenuItemCard from '../components/MenuItemCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
-
-
+import OffersSlider from '../components/OffersSlider';
 
 const MenuPage: React.FC = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [settings, setSettings] = useState<StoreInfo | null>(null);
+  const [offers, setOffers] = useState<Offer[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const fetchMenuData = async () => {
-  setLoading(true);
-  setError(null);
-  
-  try {
-    const data = await menuApi.getMenuWithSettings();
-    setMenuItems(data.menu || []); // Added || [] as fallback
-    setSettings(data.settings || null);
-  } catch (err) {
-    setError('Failed to load menu. Please check your connection.');
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await menuApi.getMenuWithSettings();
+      setMenuItems(data.menu || []);
+      setSettings(data.settings || null);
+      setOffers(data.offers || []);
+    } catch (err) {
+      setError('Failed to load menu. Please check your connection.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchMenuData();
   }, []);
 
-  // Group items by category
   const categories = React.useMemo(() => {
     const categoryMap = new Map<string, MenuItem[]>();
     
@@ -69,6 +69,11 @@ const MenuPage: React.FC = () => {
           <p className="text-gray-600 mt-1">Discover our delicious offerings</p>
         </div>
       </header>
+
+      {/* Offers Slider */}
+      {offers.length > 0 && (
+        <OffersSlider offers={offers} />
+      )}
 
       {/* Category Filter */}
       <div className="bg-white border-b sticky top-0 z-10">
