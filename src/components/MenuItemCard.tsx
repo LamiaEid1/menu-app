@@ -11,10 +11,20 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onClick }) => {
   const [imageError, setImageError] = React.useState(false);
   const { addToCart } = useCart();
 
+  // Static descriptions for menu items (ingredients comma separated)
+  const descriptions: Record<number, string> = {
+    9: "Tomato, corn, pickles, onion",
+    10: "chicken, BBQ sauce, onions, lettuce, pickles",
+    2: "chicken, lettuce, tomato, cheese, mayo, bread",
+  };
+
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
     addToCart(item);
   };
+
+  // Use static description if available, otherwise fallback to API description
+  const displayDescription = descriptions[item.id] || item.description || "";
 
   return (
     <div
@@ -61,7 +71,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onClick }) => {
           </span>
         </div>
         
-        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{item.description}</p>
+        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{displayDescription}</p>
         
         <div className="flex items-center justify-between">
           <span className="inline-block px-2 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded">
