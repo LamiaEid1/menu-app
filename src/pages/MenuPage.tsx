@@ -5,6 +5,8 @@ import MenuItemCard from '../components/MenuItemCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import ErrorMessage from '../components/ErrorMessage';
 import OffersSlider from '../components/OffersSlider';
+import CartButton from '../components/CartButton';
+import CartModal from '../components/CartModal';
 
 const MenuPage: React.FC = () => {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -13,6 +15,7 @@ const MenuPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   const fetchMenuData = async () => {
     setLoading(true);
@@ -131,6 +134,12 @@ const MenuPage: React.FC = () => {
           <p>Powered by {settings?.restaurantName || 'QuiverSoftware'}</p>
         </div>
       </footer>
+
+      {/* Cart Button */}
+      <CartButton onOpenCart={() => setIsCartOpen(true)} />
+
+      {/* Cart Modal */}
+      <CartModal isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 };

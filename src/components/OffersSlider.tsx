@@ -122,10 +122,6 @@ const OffersSlider: React.FC<OffersSliderProps> = ({ offers }) => {
                           Valid until: {new Date(offer.valid_until).toLocaleDateString()}
                         </p>
                       )}
-                      
-                      <button className="mt-4 bg-white text-orange-600 font-semibold px-8 py-3 rounded-full hover:bg-orange-50 transition-colors shadow-lg">
-                        Order Now
-                      </button>
                     </div>
                   </div>
                 </div>

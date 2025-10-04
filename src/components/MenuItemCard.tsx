@@ -1,5 +1,6 @@
 import React from 'react';
 import { MenuItem } from '../types/menu';
+import { useCart } from '../context/CartContext';
 
 interface MenuItemCardProps {
   item: MenuItem;
@@ -8,6 +9,12 @@ interface MenuItemCardProps {
 
 const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onClick }) => {
   const [imageError, setImageError] = React.useState(false);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    addToCart(item);
+  };
 
   return (
     <div
@@ -54,12 +61,27 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({ item, onClick }) => {
           </span>
         </div>
         
-        <p className="text-sm text-gray-600 line-clamp-2">{item.description}</p>
+        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{item.description}</p>
         
-        <div className="mt-2">
+        <div className="flex items-center justify-between">
           <span className="inline-block px-2 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded">
             {item.category}
           </span>
+
+          <button
+            onClick={handleAddToCart}
+            disabled={!item.available}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition-all ${
+              item.available
+                ? 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:shadow-lg'
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            Add
+          </button>
         </div>
       </div>
     </div>

@@ -1,10 +1,12 @@
+import React from 'react';
 import MenuPage from './pages/MenuPage';
+import { CartProvider } from './context/CartContext';
 
 function App() {
   return (
-    <div className="App">
+    <CartProvider>
       <MenuPage />
-    </div>
+    </CartProvider>
   );
 }
 
